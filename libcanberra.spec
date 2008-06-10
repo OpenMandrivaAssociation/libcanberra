@@ -86,14 +86,14 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/libcanberra.so.%{major}*
-%{_libdir}/libcanberra-alsa.so
-%{_libdir}/libcanberra-null.so
+%{_libdir}/%{name}.so.%{major}*
+%{_libdir}/%{name}-alsa.so
+%{_libdir}/%{name}-null.so
 
 %files -n %{libname_gtk}
 %defattr(-,root,root)
-%{_libdir}/libcanberra-gtk.so.%{major_gtk}*
-%{_libdir}/gtk-2.0/modules/libcanberra-gtk-module.so
+%{_libdir}/%{name}-gtk.so.%{major_gtk}*
+%{_libdir}/gtk-2.0/modules/%{name}-gtk-module.so
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
