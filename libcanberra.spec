@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.1
+%define version 0.3
 %define rel 1
 %define release %mkrel %rel
 
@@ -41,8 +41,6 @@ Group: System/Libraries
 A small and lightweight impelmentation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
 
 %package -n %{libname_gtk}
 Summary: GTK modules for the %{name} XDG complient sound event library
@@ -51,9 +49,6 @@ Group: System/Libraries
 %description -n %{libname_gtk}
 GTK specific libraries for %{name}, a small and lightweight impelmentation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
-
-%post -n %{libname_gtk} -p /sbin/ldconfig
-%postun -n %{libname_gtk} -p /sbin/ldconfig
 
 
 %package -n %{libname_devel}
@@ -87,8 +82,9 @@ rm -rf %{buildroot}
 %files -n %{libname}
 %defattr(-,root,root)
 %{_libdir}/%{name}.so.%{major}*
-%{_libdir}/%{name}-alsa.so
-%{_libdir}/%{name}-null.so
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/%{name}-alsa.so
+%{_libdir}/%{name}/%{name}-null.so
 
 %files -n %{libname_gtk}
 %defattr(-,root,root)
@@ -97,6 +93,7 @@ rm -rf %{buildroot}
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
+%doc README
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{shortname}-gtk.h
 %{_includedir}/%{shortname}.h
