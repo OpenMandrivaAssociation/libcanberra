@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.3
-%define rel 1
+%define rel 2
 %define release %mkrel %rel
 
 # Majors
@@ -30,7 +30,7 @@ BuildRequires: libltdl-devel
 BuildRequires: gtk-doc
 
 %description
-A small and lightweight impelmentation of the XDG Sound Theme Specification
+A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
 %package -n %{libname}
@@ -38,7 +38,7 @@ Summary: XDG complient sound event library
 Group: System/Libraries
 
 %description -n %{libname}
-A small and lightweight impelmentation of the XDG Sound Theme Specification
+A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
 
@@ -47,7 +47,7 @@ Summary: GTK modules for the %{name} XDG complient sound event library
 Group: System/Libraries
 
 %description -n %{libname_gtk}
-GTK specific libraries for %{name}, a small and lightweight impelmentation of
+GTK specific libraries for %{name}, a small and lightweight implementation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
 
@@ -57,7 +57,7 @@ Group: Development/C
 Provides: %{name}-devel = %{version}-%{release}
 
 %description -n %{libname_devel}
-Development files for %{name}, a small and lightweight impelmentation of
+Development files for %{name}, a small and lightweight implementation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
 %prep
