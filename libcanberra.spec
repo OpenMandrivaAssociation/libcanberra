@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.3
-%define rel 2
+%define version 0.4
+%define rel 1
 %define release %mkrel %rel
 
 # Majors
@@ -18,7 +18,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
-
+Source1: %{name}-gtk-module.sh
 License: LGPL
 Group: Sound
 Url: http://0pointer.de/blog/projects/sixfold-announcement.html
@@ -36,10 +36,21 @@ A small and lightweight implementation of the XDG Sound Theme Specification
 %package -n %{libname}
 Summary: XDG complient sound event library
 Group: System/Libraries
+# (cg) This is just temporary. This should really be a generic requires.
+Requires: sound-theme-freedesktop
 
 %description -n %{libname}
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
+
+
+%package gtk2
+Summary: GTK utilities for the %{name} XDG complient sound event library
+Group: System/Libraries
+
+%description gtk2
+GTK specific utilities for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
 
 %package -n %{libname_gtk}
@@ -64,7 +75,7 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 %setup -q
 
 %build
-%configure2_5x
+%configure2_5x --disable-pulse
 
 %make
 
@@ -74,6 +85,9 @@ rm -rf %{buildroot}
 
 # Remove static and metalink libraries
 find %{buildroot} \( -name *.a -o -name *.la \) -exec rm {} \;
+install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
+# Remove the multi output module until it's more stable
+rm -f %{buildroot}%{_libdir}/libcanberra/libcanberra-multi.so
 
 %clean
 rm -rf %{buildroot}
@@ -90,6 +104,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/%{name}-gtk.so.%{major_gtk}*
 %{_libdir}/gtk-2.0/modules/%{name}-gtk-module.so
+
+%files gtk2
+%defattr(-,root,root)
+%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
+%{_bindir}/canberra-gtk-play
+
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
