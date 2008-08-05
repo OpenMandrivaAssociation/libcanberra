@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.6
-%define rel 2
+%define rel 1
 %define release %mkrel %rel
 
 # Majors
@@ -68,7 +68,7 @@ Summary: Headers and libraries for %{name} development
 Group: Development/C
 Provides: %{name}-devel = %{version}-%{release}
 Requires: %libname = %version
-Requires: %libname_devel = %version
+Requires: %libname_gtk = %version
 
 %description -n %{libname_devel}
 Development files for %{name}, a small and lightweight implementation of
