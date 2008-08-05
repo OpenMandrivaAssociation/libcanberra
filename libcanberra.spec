@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.4
+%define version 0.6
 %define rel 2
 %define release %mkrel %rel
 
@@ -44,11 +44,12 @@ A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
 
-%package gtk2
+%package -n %{shortname}-gtk
 Summary: GTK utilities for the %{name} XDG complient sound event library
 Group: System/Libraries
+Obsoletes: %{name}-gtk2
 
-%description gtk2
+%description -n %{shortname}-gtk
 GTK specific utilities for %{name}, a small and lightweight implementation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
@@ -107,10 +108,12 @@ rm -rf %{buildroot}
 %{_libdir}/%{name}-gtk.so.%{major_gtk}*
 %{_libdir}/gtk-2.0/modules/%{name}-gtk-module.so
 
-%files gtk2
+%files -n %{shortname}-gtk
 %defattr(-,root,root)
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 %{_bindir}/canberra-gtk-play
+%{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
+%{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
 
 
 %files -n %{libname_devel}
