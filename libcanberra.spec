@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.6
-%define rel 1
+%define rel 2
 %define release %mkrel %rel
 
 # Majors
@@ -57,6 +57,7 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 %package -n %{libname_gtk}
 Summary: GTK modules for the %{name} XDG complient sound event library
 Group: System/Libraries
+Requires: %{shortname}-gtk >= %version
 
 %description -n %{libname_gtk}
 GTK specific libraries for %{name}, a small and lightweight implementation of
