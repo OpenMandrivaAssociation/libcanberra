@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.4
-%define rel 1
+%define rel 2
 %define release %mkrel %rel
 
 # Majors
@@ -66,6 +66,8 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 Summary: Headers and libraries for %{name} development
 Group: Development/C
 Provides: %{name}-devel = %{version}-%{release}
+Requires: %libname = %version
+Requires: %libname_devel = %version
 
 %description -n %{libname_devel}
 Development files for %{name}, a small and lightweight implementation of
