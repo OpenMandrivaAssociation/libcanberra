@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.6
-%define rel 3
+%define version 0.7
+%define rel 1
 %define release %mkrel %rel
 
 # Majors
@@ -19,11 +19,9 @@ Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
 Source1: %{name}-gtk-module.sh
-# (fc) 0.6-3mdv hide warning for no sound file is found (GIT)
-Patch0: libcanberra-0.6-hidewarning.patch
 License: LGPL
 Group: Sound
-Url: http://0pointer.de/blog/projects/sixfold-announcement.html
+Url: http://0pointer.de/lennart/projects/libcanberra/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: gtk+2-devel
 BuildRequires: libalsa-devel
@@ -79,7 +77,6 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 
 %prep
 %setup -q
-%patch0 -p1 -b .hidewarning
 
 %build
 %configure2_5x --disable-pulse
@@ -122,7 +119,8 @@ rm -rf %{buildroot}
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
-%doc README
+%dir %{_docdir}/%{name}
+%doc %{_docdir}/%{name}/README
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{shortname}-gtk.h
 %{_includedir}/%{shortname}.h
