@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.7
+%define version 0.8
 %define rel 1
 %define release %mkrel %rel
 
@@ -79,7 +79,7 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 %setup -q
 
 %build
-%configure2_5x --disable-pulse
+%configure2_5x --disable-pulse --disable-gstreamer --disable-oss
 
 %make
 
