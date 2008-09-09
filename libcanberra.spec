@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.8
+%define version 0.9
 %define rel 1
 %define release %mkrel %rel
 
@@ -28,6 +28,8 @@ BuildRequires: libalsa-devel
 BuildRequires: libvorbis-devel
 BuildRequires: libltdl-devel
 BuildRequires: gtk-doc
+# (cg) NB This has no effect until samba SPEC is fixed to provide package config files.
+BuildRequires: tdb-devel
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
