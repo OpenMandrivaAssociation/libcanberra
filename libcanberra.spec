@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.9
-%define rel 1
+%define rel 2
 %define release %mkrel %rel
 
 # Majors
@@ -19,6 +19,8 @@ Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
 Source1: %{name}-gtk-module.sh
+# (fc) 0.9-2mdv start login sound later, to ensure g-s-d is already running, selecting the right sound theme
+Patch0: libcanberra-0.9-fixrunlevel.patch
 License: LGPL
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -79,6 +81,7 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 
 %prep
 %setup -q
+%patch0 -p1 -b .fixrunlevel
 
 %build
 %configure2_5x --disable-pulse --disable-gstreamer --disable-oss
