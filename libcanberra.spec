@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.9
-%define rel 3
+%define version 0.10
+%define rel 1
 %define release %mkrel %rel
 
 # Majors
@@ -31,6 +31,7 @@ BuildRequires: libvorbis-devel
 BuildRequires: libltdl-devel
 BuildRequires: gtk-doc
 BuildRequires: tdb-devel
+BuildRequires: pulseaudio-devel
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -55,6 +56,12 @@ Obsoletes: %{name}-gtk2
 %description -n %{shortname}-gtk
 GTK specific utilities for %{name}, a small and lightweight implementation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
+
+%post -n %{shortname}-gtk
+%post_install_gconf_schemas %{name}
+
+%preun -n %{shortname}-gtk
+%preun_uninstall_gconf_schemas %{name}
 
 
 %package -n %{libname_gtk}
@@ -83,7 +90,7 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 %patch0 -p1 -b .fixrunlevel
 
 %build
-%configure2_5x --disable-pulse --disable-gstreamer --disable-oss
+%configure2_5x --disable-gstreamer --disable-oss
 
 %make
 
@@ -106,6 +113,7 @@ rm -rf %{buildroot}
 %{_libdir}/%{name}.so.%{major}*
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/%{name}-alsa.so
+%{_libdir}/%{name}/%{name}-pulse.so
 %{_libdir}/%{name}/%{name}-null.so
 
 %files -n %{libname_gtk}
@@ -115,6 +123,7 @@ rm -rf %{buildroot}
 
 %files -n %{shortname}-gtk
 %defattr(-,root,root)
+%{_sysconfdir}/gconf/schemas/libcanberra.schemas
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 %{_bindir}/canberra-gtk-play
 %{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
