@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.10
+%define version 0.11
 %define rel 1
 %define release %mkrel %rel
 
@@ -19,8 +19,6 @@ Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
 Source1: %{name}-gtk-module.sh
-# (fc) 0.9-2mdv start login sound later, to ensure g-s-d is already running, selecting the right sound theme
-Patch0: libcanberra-0.9-fixrunlevel.patch
 License: LGPL
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -87,7 +85,6 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 
 %prep
 %setup -q
-%patch0 -p1 -b .fixrunlevel
 
 %build
 %configure2_5x --disable-gstreamer --disable-oss
@@ -102,7 +99,7 @@ rm -rf %{buildroot}
 find %{buildroot} \( -name *.a -o -name *.la \) -exec rm {} \;
 install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 # Remove the multi output module until it's more stable
-rm -f %{buildroot}%{_libdir}/libcanberra/libcanberra-multi.so
+rm -f %{buildroot}%{_libdir}/libcanberra-%{version}/libcanberra-multi.so
 
 %clean
 rm -rf %{buildroot}
@@ -111,10 +108,10 @@ rm -rf %{buildroot}
 %files -n %{libname}
 %defattr(-,root,root)
 %{_libdir}/%{name}.so.%{major}*
-%dir %{_libdir}/%{name}
-%{_libdir}/%{name}/%{name}-alsa.so
-%{_libdir}/%{name}/%{name}-pulse.so
-%{_libdir}/%{name}/%{name}-null.so
+%dir %{_libdir}/%{name}-%{version}
+%{_libdir}/%{name}-%{version}/%{name}-alsa.so
+%{_libdir}/%{name}-%{version}/%{name}-pulse.so
+%{_libdir}/%{name}-%{version}/%{name}-null.so
 
 %files -n %{libname_gtk}
 %defattr(-,root,root)
