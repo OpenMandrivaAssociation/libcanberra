@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.11
-%define release %mkrel 2
+%define release %mkrel 3
 
 # Majors
 %define major 0
@@ -18,6 +18,11 @@ Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
 Source1: %{name}-gtk-module.sh
+Patch0001: 0001-If-supported-leave-the-volume-for-event-sounds-unsp.patch
+Patch0002: 0002-register-a-few-new-PA-error-codes.patch
+Patch0003: 0003-make-use-of-PA_STREAM_FAIL_ON_SUSPEND-if-defined.patch
+Patch0004: 0004-Detect-forks.patch
+Patch0005: 0005-don-t-crash-if-there-is-no-default-display-on-initia.patch
 License: LGPL
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -84,8 +89,14 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 
 %prep
 %setup -q
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
 
 %build
+./autogen.sh -V
 %configure2_5x --disable-gstreamer --disable-oss
 
 %make
