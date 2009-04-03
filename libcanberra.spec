@@ -34,7 +34,10 @@ BuildRequires: libltdl-devel
 BuildRequires: gtk-doc
 BuildRequires: tdb-devel
 BuildRequires: pulseaudio-devel
+
+# (cg) The following seem to be required to make autoreconf not moan.
 BuildRequires: gettext-devel
+BuildRequires: libGConf2-devel
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
