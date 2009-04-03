@@ -34,6 +34,7 @@ BuildRequires: libltdl-devel
 BuildRequires: gtk-doc
 BuildRequires: tdb-devel
 BuildRequires: pulseaudio-devel
+BuildRequires: gettext-devel
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
