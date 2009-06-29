@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.13
-%define release %mkrel 2
+%define release %mkrel 3
 
 # Majors
 %define major 0
@@ -18,6 +18,7 @@ Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
 Source1: %{name}-gtk-module.sh
+Patch0001: 0001-Revert-pulse-use-nofail.patch
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -88,6 +89,8 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 
 %prep
 %setup -q
+
+%apply_patches
 
 %build
 ./autogen.sh -V
