@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.15
-%define release %mkrel 1
+%define release %mkrel 2
 
 # Majors
 %define major 0
@@ -18,6 +18,9 @@ Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
 Source1: %{name}-gtk-module.sh
+Source2: %{shortname}-profile-d.sh
+Source3: %{shortname}-alsa.conf
+Source4: %{shortname}-pulse.conf
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -38,11 +41,20 @@ BuildRequires: libGConf2-devel
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
+%package -n %{shortname}-common
+Summary: Common files needed for libcanberra
+Group: Sound
+# (cg) This is just temporary. This should really be a generic requires.
+Requires: sound-theme-freedesktop
+
+%description -n %{shortname}-common
+Common files needed for libcanberra
+
+
 %package -n %{libname}
 Summary: XDG complient sound event library
 Group: System/Libraries
-# (cg) This is just temporary. This should really be a generic requires.
-Requires: sound-theme-freedesktop
+Requires: %{shortname}-common
 
 %description -n %{libname}
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -102,11 +114,21 @@ rm -rf %{buildroot}
 # Remove static and metalink libraries
 find %{buildroot} \( -name *.a -o -name *.la \) -exec rm {} \;
 install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
+install -D -m755  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/canberra.sh
+install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canberra.conf
+install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 # Remove the multi output module until it's more stable
 rm -f %{buildroot}%{_libdir}/libcanberra-%{version}/libcanberra-multi.so
 
 %clean
 rm -rf %{buildroot}
+
+
+%files -n %{shortname}-common
+%defattr(-,root,root)
+%{_sysconfdir}/profile.d/canberra.sh
+%{_sysconfdir}/sound/profiles/alsa/canberra.conf
+%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
 
 %files -n %{libname}
