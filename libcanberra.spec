@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.16
+%define version 0.17
 %define release %mkrel 1
 
 # Majors
@@ -149,6 +149,7 @@ rm -rf %{buildroot}
 %{_sysconfdir}/gconf/schemas/libcanberra.schemas
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 %{_bindir}/canberra-gtk-play
+%{_datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop
 %{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
 %{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
 
@@ -163,3 +164,4 @@ rm -rf %{buildroot}
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}-gtk.pc
 %{_libdir}/pkgconfig/%{name}.pc
+%{_datadir}/vala/vapi/libcanberra*.vapi
