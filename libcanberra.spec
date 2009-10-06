@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.18
-%define release %mkrel 1
+%define release %mkrel 2
 
 # Majors
 %define major 0
@@ -21,6 +21,10 @@ Source1: %{name}-gtk-module.sh
 Source2: %{shortname}-profile-d.sh
 Source3: %{shortname}-alsa.conf
 Source4: %{shortname}-pulse.conf
+Patch001: 0001-gtk-fix-calculation-of-event-hpos-vpos.patch
+Patch002: 0002-gtk-even-if-GtkSettings-is-not-available-use-context.patch
+Patch003: 0003-gtk-refresh-event-window-after-dequeing.patch
+Patch004: 0004-gtk-verify-that-a-widget-is-realized-before-we-try-t.patch
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -100,6 +104,7 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 
 %prep
 %setup -q
+%apply_patches
 
 %build
 ./autogen.sh -V
