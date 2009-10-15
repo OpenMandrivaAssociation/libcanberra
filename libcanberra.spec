@@ -21,7 +21,7 @@ Source1: %{name}-gtk-module.sh
 Source2: %{shortname}-profile-d.sh
 Source3: %{shortname}-alsa.conf
 Source4: %{shortname}-pulse.conf
-Patch001: 0001-gtk-Do-not-dispatch-the-sound-event-if-we-have-no-wi.patch
+Patch001: 0001-gtk-Do-not-dereference-a-null-window.patch
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
