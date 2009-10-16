@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.20
+%define version 0.21
 %define release %mkrel 1
 
 # Majors
@@ -21,7 +21,6 @@ Source1: %{name}-gtk-module.sh
 Source2: %{shortname}-profile-d.sh
 Source3: %{shortname}-alsa.conf
 Source4: %{shortname}-pulse.conf
-Patch001: 0001-gtk-Do-not-dereference-a-null-window.patch
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
