@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.21
+%define version 0.22
 %define release %mkrel 1
 
 # Majors
