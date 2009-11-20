@@ -115,7 +115,7 @@ rm -rf %{buildroot}
 # Remove static and metalink libraries
 find %{buildroot} \( -name *.a -o -name *.la \) -exec rm {} \;
 install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
-install -D -m755  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/canberra.sh
+install -D -m644  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/40canberra.sh
 install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canberra.conf
 install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 # Remove the multi output module until it's more stable
