@@ -1,6 +1,6 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.22
+%define version 0.23
 %define release %mkrel 1
 
 # Majors
@@ -127,7 +127,7 @@ rm -rf %{buildroot}
 
 %files -n %{shortname}-common
 %defattr(-,root,root)
-%{_sysconfdir}/profile.d/canberra.sh
+%{_sysconfdir}/profile.d/40canberra.sh
 %{_sysconfdir}/sound/profiles/alsa/canberra.conf
 %{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
