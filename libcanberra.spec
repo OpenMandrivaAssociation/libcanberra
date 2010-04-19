@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.23
-%define release %mkrel 2
+%define version 0.24
+%define release %mkrel 1
 
 # Majors
 %define major 0
@@ -21,8 +21,6 @@ Source1: %{name}-gtk-module.sh
 Source2: %{shortname}-profile-d.sh
 Source3: %{shortname}-alsa.conf
 Source4: %{shortname}-pulse.conf
-Patch0001: 0001-props-set-a-couple-of-additional-properties-by-defau.patch
-Patch0002: 0002-pulse-fix-finish-notification-for-cached-sample-play.patch
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -105,7 +103,6 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 %apply_patches
 
 %build
-./autogen.sh -V
 %configure2_5x --disable-gstreamer --disable-oss
 
 %make
