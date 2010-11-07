@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
 %define version 0.26
-%define release %mkrel 1
+%define release %mkrel 0
 
 # Majors
 %define major 0
@@ -10,6 +10,7 @@
 # Library names
 %define libname %mklibname %{shortname} %{major}
 %define libname_gtk %mklibname %{shortname}-gtk %{major_gtk}
+%define	libname_gtkdevel  %mklibname -d %{shortname}-gtk
 %define libname_devel %mklibname -d %{shortname}
 
 Summary: XDG compliant sound event library
@@ -86,17 +87,30 @@ Requires: %{shortname}-gtk >= %version
 GTK specific libraries for %{name}, a small and lightweight implementation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
+%package -n %{libname_gtkdevel}
+Summary: GTK modules for the %{name} XDG complient sound event library
+Group: System/Libraries
+Provides: %{name}-gtk-devel = %{version}-%{release}
+Requires: %libname_gtk = %version
+Requires: %libname_devel = %version
+
+
+%description -n %{libname_gtkdevel}
+GTK specific libraries for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
 %package -n %{libname_devel}
 Summary: Headers and libraries for %{name} development
 Group: Development/C
 Provides: %{name}-devel = %{version}-%{release}
 Requires: %libname = %version
-Requires: %libname_gtk = %version
+
 
 %description -n %{libname_devel}
 Development files for %{name}, a small and lightweight implementation of
 the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
+
+
 
 %prep
 %setup -q
@@ -153,15 +167,19 @@ rm -rf %{buildroot}
 %{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
 %{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
 
-%files -n %{libname_devel}
+%files -n %{libname_gtkdevel}
 %defattr(-,root,root)
 %dir %{_docdir}/%{name}
-%doc %{_docdir}/%{name}/README
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{shortname}-gtk.h
-%{_includedir}/%{shortname}.h
 %{_libdir}/%{name}-gtk.so
-%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}-gtk.pc
+%{_datadir}/vala/vapi/libcanberra-gtk.vapi
+
+%files -n %{libname_devel}
+%defattr(-,root,root)
+%doc %{_docdir}/%{name}/README
+%{_includedir}/%{shortname}.h
+%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
-%{_datadir}/vala/vapi/libcanberra*.vapi
+%{_datadir}/vala/vapi/libcanberra.vapi
