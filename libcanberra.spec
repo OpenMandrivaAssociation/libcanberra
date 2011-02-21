@@ -41,6 +41,7 @@ BuildRequires: gettext-devel
 BuildRequires: libGConf2-devel
 
 %if %{_with_systemd}
+BuildRequires: udev-devel
 BuildRequires: systemd-units
 %endif
 
