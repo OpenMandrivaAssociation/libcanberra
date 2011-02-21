@@ -1,7 +1,7 @@
 %define name libcanberra 
 %define shortname canberra 
-%define version 0.26
-%define release %mkrel 2
+%define version 0.27
+%define release %mkrel 1
 
 # Majors
 %define major 0
@@ -12,6 +12,8 @@
 %define libname_gtk %mklibname %{shortname}-gtk %{major_gtk}
 %define	libname_gtkdevel  %mklibname -d %{shortname}-gtk
 %define libname_devel %mklibname -d %{shortname}
+
+%define _with_systemd 1
 
 Summary: XDG compliant sound event library
 Name: %{name}
@@ -37,6 +39,11 @@ BuildRequires: pulseaudio-devel
 # (cg) The following seem to be required to make autoreconf not moan.
 BuildRequires: gettext-devel
 BuildRequires: libGConf2-devel
+
+%if %{_with_systemd}
+BuildRequires: systemd-units
+%endif
+
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -117,7 +124,13 @@ the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.ht
 %apply_patches
 
 %build
-%configure2_5x --disable-gstreamer --disable-oss
+%configure2_5x \
+  --disable-gstreamer \
+  --disable-oss \
+%if !%{_with_systemd}
+  --without-systemdsystemunitdir \
+%endif
+  --disable-gtk3
 
 %make
 
@@ -143,6 +156,12 @@ rm -rf %{buildroot}
 %{_sysconfdir}/profile.d/40canberra.sh
 %{_sysconfdir}/sound/profiles/alsa/canberra.conf
 %{_sysconfdir}/sound/profiles/pulse/canberra.conf
+%if %{_with_systemd}
+%{_bindir}/canberra-boot
+/lib/systemd/system/canberra-system-bootup.service
+/lib/systemd/system/canberra-system-shutdown-reboot.service
+/lib/systemd/system/canberra-system-shutdown.service
+%endif
 
 
 %files -n %{libname}
