@@ -16,7 +16,7 @@
 Summary: XDG compliant sound event library
 Name: libcanberra
 Version: 0.28
-Release: 4
+Release: 3
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
