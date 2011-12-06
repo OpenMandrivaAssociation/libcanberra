@@ -14,7 +14,7 @@
 Summary: XDG compliant sound event library
 Name: libcanberra
 Version: 0.28
-Release: 1
+Release: 2
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -177,7 +177,6 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_libdir}/%{name}-gtk.so.%{major_gtk}*
 
 %files -n %{gtk3name}
-%defattr(-,root,root)
 %{_libdir}/%{name}-gtk3.so.%{major_gtk}*
 
 %files -n %{shortname}-gtk
