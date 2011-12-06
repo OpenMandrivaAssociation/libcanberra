@@ -1,3 +1,5 @@
+%define _disable_ld_no_undefined 1
+
 %define shortname canberra 
 %define major 0
 %define major_gtk 0
