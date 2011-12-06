@@ -16,7 +16,7 @@
 Summary: XDG compliant sound event library
 Name: libcanberra
 Version: 0.28
-Release: 2
+Release: 4
 License: LGPLv2+
 Group: Sound
 Url: http://0pointer.de/lennart/projects/libcanberra/
@@ -45,17 +45,19 @@ A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
 %package -n %{shortname}-common
-Summary: Common files needed for libcanberra
-Group: Sound
+Summary:	Common files needed for libcanberra
+Group:		Sound
+Requires:	%{shortname}-gtk = %{version}-%{release}
 # (cg) This is just temporary. This should really be a generic requires.
-Requires: sound-theme-freedesktop
+Requires:	sound-theme-freedesktop
 
 %description -n %{shortname}-common
 Common files needed for libcanberra
 
 %package -n %{libname}
-Summary: XDG complient sound event library
-Group: System/Libraries
+Summary:	XDG complient sound event library
+Group:		System/Libraries
+Requires:	%{shortname}-common = %{version}-%{release}
 
 %description -n %{libname}
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -213,4 +215,3 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/vala/vapi/libcanberra.vapi
-
