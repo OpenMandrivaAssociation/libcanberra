@@ -15,26 +15,29 @@
 
 Summary:	XDG compliant sound event library
 Name:		libcanberra
-Version:	0.28
-Release:	6
+Version:	0.29
+Release:	1
 License:	LGPLv2+
 Group:		Sound
 URL:		http://0pointer.de/lennart/projects/libcanberra/
-Source0: %{name}-%{version}.tar.gz
-Source1: %{name}-gtk-module.sh
-Source2: %{shortname}-profile-d.sh
-Source3: %{shortname}-alsa.conf
-Source4: %{shortname}-pulse.conf
+Source0:	http://0pointer.de/lennart/projects/libcanberra/%{name}-%{version}.tar.xz
+Source1:	%{name}-gtk-module.sh
+Source2:	%{shortname}-profile-d.sh
+Source3:	%{shortname}-alsa.conf
+Source4:	%{shortname}-pulse.conf
+Patch0:		libcanberra-0.28-underlinking.patch
 
 BuildRequires: GConf2
-BuildRequires: libltdl-devel
+BuildRequires: libtool-devel
 BuildRequires: pkgconfig(gstreamer-0.10)
 BuildRequires: pkgconfig(gtk+-2.0)
 BuildRequires: pkgconfig(gtk+-3.0)
 BuildRequires: pkgconfig(alsa)
 BuildRequires: pkgconfig(vorbisfile)
 BuildRequires: pkgconfig(tdb)
+BuildRequires: pkgconfig(x11)
 BuildRequires: pkgconfig(libpulse)
+BuildRequires: X11-devel
 %if %{with systemd}
 BuildRequires: pkgconfig(udev)
 BuildRequires: systemd-units
@@ -150,6 +153,7 @@ Development files for %{name}.
 %configure2_5x \
     --disable-static \
     --disable-oss \
+    --disable-lynx \
 %if %{with systemd}
     --with-systemdsystemunitdir=/lib/systemd/system
 %endif
