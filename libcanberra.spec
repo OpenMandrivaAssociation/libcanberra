@@ -1,149 +1,124 @@
-%define _disable_ld_no_undefined 1
-
 %define shortname canberra 
+
+# Majors
 %define major 0
 %define major_gtk 0
 
+# Library names
 %define libname %mklibname %{shortname} %{major}
-%define libgtk %mklibname %{shortname}-gtk %{major_gtk}
-%define libgtk3 %mklibname %{shortname}-gtk3_ %{major_gtk}
-%define libgtkdevel %mklibname -d %{shortname}-gtk
-%define libgtk3devel %mklibname -d %{shortname}-gtk3
-%define develname %mklibname -d %{shortname}
+%define libname_gtk %mklibname %{shortname}-gtk %{major_gtk}
+%define libname_gtk3 %mklibname %{shortname}-gtk3_ %{major_gtk}
+%define	libname_gtkdevel  %mklibname -d %{shortname}-gtk
+%define libname_devel %mklibname -d %{shortname}
 
-%bcond_without systemd
+%define _with_systemd 1
 
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.29
-Release:	1
-License:	LGPLv2+
-Group:		Sound
-URL:		http://0pointer.de/lennart/projects/libcanberra/
-Source0:	http://0pointer.de/lennart/projects/libcanberra/%{name}-%{version}.tar.xz
+Release:	%mkrel 1
+Source0:	%{name}-%{version}.tar.xz
 Source1:	%{name}-gtk-module.sh
 Source2:	%{shortname}-profile-d.sh
 Source3:	%{shortname}-alsa.conf
 Source4:	%{shortname}-pulse.conf
 Patch0:		libcanberra-0.28-underlinking.patch
+License:	LGPLv2+
+Group:		Sound
+Url:		http://0pointer.de/lennart/projects/libcanberra/
+BuildRequires:	gtk+2-devel
+BuildRequires:	gtk+3-devel
+BuildRequires:	libalsa-devel
+BuildRequires:	libvorbis-devel
+BuildRequires:	libtool-devel
+BuildRequires:	gtk-doc
+BuildRequires:	tdb-devel
+BuildRequires:	pulseaudio-devel
 
-BuildRequires: GConf2
-BuildRequires: libtool-devel
-BuildRequires: pkgconfig(gstreamer-0.10)
-BuildRequires: pkgconfig(gtk+-2.0)
-BuildRequires: pkgconfig(gtk+-3.0)
-BuildRequires: pkgconfig(alsa)
-BuildRequires: pkgconfig(vorbisfile)
-BuildRequires: pkgconfig(tdb)
-BuildRequires: pkgconfig(x11)
-BuildRequires: pkgconfig(libpulse)
-BuildRequires: X11-devel
-%if %{with systemd}
-BuildRequires: pkgconfig(udev)
-BuildRequires: systemd-units
+# (cg) The following seem to be required to make autoreconf not moan.
+BuildRequires:	gettext-devel
+BuildRequires:	libGConf2-devel
+
+%if %{_with_systemd}
+BuildRequires:	udev-devel
+BuildRequires:	systemd-units
 %endif
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
-
 %package -n %{shortname}-common
 Summary:	Common files needed for libcanberra
 Group:		Sound
 # (cg) This is just temporary. This should really be a generic requires.
 Requires:	sound-theme-freedesktop
-Conflicts:	%{shortname}-gtk3 < 0.28-6
+Requires(post):  rpm-helper >= 0.24.8-1
+Requires(preun): rpm-helper >= 0.24.8-1
+
 
 %description -n %{shortname}-common
 Common files needed for libcanberra
 
-%post -n %{shortname}-common
-%post_install_gconf_schemas %{name}
-if [ $1 -eq 1 ]; then
-    /bin/systemctl daemon-reload
-fi
-
-%preun -n %{shortname}-common
-%preun_uninstall_gconf_schemas %{name}
-if [ $1 -eq 0 ]; then
-    /bin/systemctl --no-reload disable canberra-system-bootup.service canberra-system-shutdown.service canberra-system-shutdown-reboot.service
-    /bin/systemctl stop canberra-system-bootup.service canberra-system-shutdown.service canberra-system-shutdown-reboot.service
-fi
-
-%postun -n %{shortname}-common
-/bin/systemctl daemon-reload
-
-
-%package -n %{shortname}-gtk3
-Summary:	GTK3 utilities for the %{name} XDG complient sound event library
-Group:		System/Libraries
-Requires:	gtk+3.0
-Requires:	%{shortname}-common
-Obsoletes:	%{name}-gtk2
-
-%description -n %{shortname}-gtk3
-GTK3 specific utilities & modules for %{name}, a small and lightweight 
-implementation of the XDG Sound Theme Specification 
-(http://0pointer.de/public/sound-theme-spec.html).
-
-
 %package -n %{libname}
 Summary:	XDG complient sound event library
 Group:		System/Libraries
+Requires:	%{shortname}-common
 
 %description -n %{libname}
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
-%package -n %{libgtk}
-Summary:	GTK libraries for the %{name}
+%package -n %{shortname}-gtk
+Summary:	GTK utilities for the %{name} XDG complient sound event library
 Group:		System/Libraries
-Provides:	canberra-gtk-module
-%rename		canberra-gtk
+Obsoletes:	%{name}-gtk2
 
-%description -n %{libgtk}
-GTK specific libraries for %{name}
+%description -n %{shortname}-gtk
+GTK specific utilities for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
-
-%package -n %{libgtk3}
-Summary:	GTK3 libraries for the %{name}
+%package -n %{libname_gtk}
+Summary:	GTK modules for the %{name} XDG complient sound event library
 Group:		System/Libraries
+Requires:	%{shortname}-gtk = %{version}-%{release}
 
-%description -n %{libgtk3}
-GTK3 specific libraries for %{name}.
+%description -n %{libname_gtk}
+GTK specific libraries for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
 
-%package -n %{libgtkdevel}
-Summary:	GTK library for %{name} development
-Group:		Development/C
+%package -n %{libname_gtk3}
+Summary:	GTK 3 modules for the %{name} XDG complient sound event library
+Group:		System/Libraries
+Requires:	%{shortname}-gtk >= %{version}-%{release}
+Obsoletes:	%{_lib}%{shortname}-gtk30 < 0.28-3
+
+%description -n %{libname_gtk3}
+GTK specific libraries for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
+
+%package -n %{libname_gtkdevel}
+Summary:	GTK modules for the %{name} XDG complient sound event library
+Group:		System/Libraries
 Provides:	%{name}-gtk-devel = %{version}-%{release}
-Requires:	%{libgtk} = %{version}-%{release}
-# moved the gtk header file & vala to gtk3devel
-Requires:	%{libgtk3devel} = %{version}-%{release}
+Requires:	%{libname_gtk} = %{version}-%{release}
+Requires:	%{libname_gtk3} = %{version}-%{release}
+Requires:	%{libname_devel} = %{version}-%{release}
 
-%description -n %{libgtkdevel}
-GTK specific development library for %{name}.
+%description -n %{libname_gtkdevel}
+GTK specific libraries for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
-
-%package -n %{libgtk3devel}
-Summary:	GTK3 header and library for %{name} development
-Group:		Development/C
-Provides:	%{name}-gtk3-devel = %{version}-%{release}
-Requires:	%{libgtk3} = %{version}-%{release}
-
-%description -n %{libgtk3devel}
-GTK3 specific development library and header for %{name}.
-
-
-%package -n %{develname}
+%package -n %{libname_devel}
 Summary:	Headers and libraries for %{name} development
 Group:		Development/C
-Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+Requires:	%{libname} = %{version}-%{release}
 
-%description -n %{develname}
-Development files for %{name}.
+%description -n %{libname_devel}
+Development files for %{name}, a small and lightweight implementation of
+the XDG Sound Theme Specification (http://0pointer.de/public/sound-theme-spec.html).
 
 %prep
 %setup -q
@@ -151,11 +126,13 @@ Development files for %{name}.
 
 %build
 %configure2_5x \
-    --disable-static \
-    --disable-oss \
-    --disable-lynx \
-%if %{with systemd}
-    --with-systemdsystemunitdir=/lib/systemd/system
+	--disable-gstreamer \
+	--disable-oss \
+	--disable-static \
+%if !%{_with_systemd}
+	--without-systemdsystemunitdir 
+%else
+	--with-systemdsystemunitdir=%{_unitdir}
 %endif
 
 %make
@@ -165,69 +142,70 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 # Remove metalink libraries
-find %{buildroot} -name '*.la' -exec rm -f {} ';'
+find %{buildroot} -name *.la -delete
 
 install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 install -D -m644  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/40canberra.sh
 install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canberra.conf
 install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
+# Remove the multi output module until it's more stable
+rm -f %{buildroot}%{_libdir}/libcanberra-%{version}/libcanberra-multi.so
+
+# handle docs in files section
+rm -rf %{buildroot}%{_defaultdocdir}
 
 %files -n %{shortname}-common
-%{_sysconfdir}/gconf/schemas/libcanberra.schemas
-%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 %{_sysconfdir}/profile.d/40canberra.sh
 %{_sysconfdir}/sound/profiles/alsa/canberra.conf
 %{_sysconfdir}/sound/profiles/pulse/canberra.conf
-%if %{with systemd}
+
+%if %{_with_systemd}
 %{_bindir}/canberra-boot
-/lib/systemd/system/canberra-system-bootup.service
-/lib/systemd/system/canberra-system-shutdown-reboot.service
-/lib/systemd/system/canberra-system-shutdown.service
+%{_unitdir}/canberra-system-bootup.service
+%{_unitdir}/canberra-system-shutdown-reboot.service
+%{_unitdir}/canberra-system-shutdown.service
 %endif
-
-%files -n %{shortname}-gtk3
-%{_bindir}/canberra-gtk-play
-%{_datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop
-%{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
-%{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
-
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
 %dir %{_libdir}/%{name}-%{version}
 %{_libdir}/%{name}-%{version}/%{name}-alsa.so
-%{_libdir}/%{name}-%{version}/%{name}-gstreamer.so
 %{_libdir}/%{name}-%{version}/%{name}-pulse.so
-%{_libdir}/%{name}-%{version}/%{name}-multi.so
 %{_libdir}/%{name}-%{version}/%{name}-null.so
 
-%files -n %{libgtk}
+%files -n %{libname_gtk}
 %{_libdir}/%{name}-gtk.so.%{major_gtk}*
 %{_libdir}/gtk-2.0/modules/%{name}-gtk-module.so
 
-%files -n %{libgtk3}
+%files -n %{libname_gtk3}
+%dir %{_libdir}/gtk-3.0/modules
 %{_libdir}/%{name}-gtk3.so.%{major_gtk}*
-%{_libdir}/gtk-3.0/modules/%{name}-gtk-module.so
 %{_libdir}/gtk-3.0/modules/%{name}-gtk3-module.so
+%{_libdir}/gtk-3.0/modules/libcanberra-gtk-module.so
+
+%files -n %{shortname}-gtk
+%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
+%{_bindir}/canberra-gtk-play
+%{_datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop
+%{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
+%{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
 %{_libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop
 
-
-%files -n %{libgtkdevel}
+%files -n %{libname_gtkdevel}
 %doc %{_datadir}/gtk-doc/html/%{name}
-%{_libdir}/%{name}-gtk.so
-%{_libdir}/pkgconfig/%{name}-gtk.pc
-
-%files -n %{libgtk3devel}
-%{_libdir}/libcanberra-gtk3.so
-%{_libdir}/pkgconfig/libcanberra-gtk3.pc
+%doc README
 %{_includedir}/%{shortname}-gtk.h
+%{_libdir}/%{name}-gtk.so
+%{_libdir}/libcanberra-gtk3.so
+%{_libdir}/pkgconfig/%{name}-gtk.pc
+%{_libdir}/pkgconfig/libcanberra-gtk3.pc
 %{_datadir}/vala/vapi/libcanberra-gtk.vapi
 
-%files -n %{develname}
-%docdir %{_docdir}/%{name}
-%doc %{_docdir}/%{name}/README
+%files -n %{libname_devel}
+%doc README
 %{_includedir}/%{shortname}.h
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/vala/vapi/libcanberra.vapi
+
