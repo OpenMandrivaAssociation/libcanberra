@@ -29,15 +29,14 @@ Patch0:		libcanberra-0.28-underlinking.patch
 
 BuildRequires: GConf2
 BuildRequires: libtool-devel
+BuildRequires: pkgconfig(alsa)
 BuildRequires: pkgconfig(gstreamer-0.10)
 BuildRequires: pkgconfig(gtk+-2.0)
 BuildRequires: pkgconfig(gtk+-3.0)
-BuildRequires: pkgconfig(alsa)
-BuildRequires: pkgconfig(vorbisfile)
-BuildRequires: pkgconfig(tdb)
-BuildRequires: pkgconfig(x11)
 BuildRequires: pkgconfig(libpulse)
-BuildRequires: X11-devel
+BuildRequires: pkgconfig(tdb)
+BuildRequires: pkgconfig(vorbisfile)
+BuildRequires: pkgconfig(x11)
 %if %{with systemd}
 BuildRequires: pkgconfig(udev)
 BuildRequires: systemd-units
@@ -46,7 +45,6 @@ BuildRequires: systemd-units
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
-
 
 %package -n %{shortname}-common
 Summary:	Common files needed for libcanberra
@@ -59,13 +57,11 @@ Conflicts:	%{shortname}-gtk3 < 0.28-6
 Common files needed for libcanberra
 
 %post -n %{shortname}-common
-%post_install_gconf_schemas %{name}
 if [ $1 -eq 1 ]; then
     /bin/systemctl daemon-reload
 fi
 
 %preun -n %{shortname}-common
-%preun_uninstall_gconf_schemas %{name}
 if [ $1 -eq 0 ]; then
     /bin/systemctl --no-reload disable canberra-system-bootup.service canberra-system-shutdown.service canberra-system-shutdown-reboot.service
     /bin/systemctl stop canberra-system-bootup.service canberra-system-shutdown.service canberra-system-shutdown-reboot.service
@@ -73,7 +69,6 @@ fi
 
 %postun -n %{shortname}-common
 /bin/systemctl daemon-reload
-
 
 %package -n %{shortname}-gtk3
 Summary:	GTK3 utilities for the %{name} XDG complient sound event library
@@ -86,7 +81,6 @@ Obsoletes:	%{name}-gtk2
 GTK3 specific utilities & modules for %{name}, a small and lightweight 
 implementation of the XDG Sound Theme Specification 
 (http://0pointer.de/public/sound-theme-spec.html).
-
 
 %package -n %{libname}
 Summary:	XDG complient sound event library
@@ -105,14 +99,12 @@ Provides:	canberra-gtk-module
 %description -n %{libgtk}
 GTK specific libraries for %{name}
 
-
 %package -n %{libgtk3}
 Summary:	GTK3 libraries for the %{name}
 Group:		System/Libraries
 
 %description -n %{libgtk3}
 GTK3 specific libraries for %{name}.
-
 
 %package -n %{libgtkdevel}
 Summary:	GTK library for %{name} development
@@ -125,7 +117,6 @@ Requires:	%{libgtk3devel} = %{version}-%{release}
 %description -n %{libgtkdevel}
 GTK specific development library for %{name}.
 
-
 %package -n %{libgtk3devel}
 Summary:	GTK3 header and library for %{name} development
 Group:		Development/C
@@ -134,7 +125,6 @@ Requires:	%{libgtk3} = %{version}-%{release}
 
 %description -n %{libgtk3devel}
 GTK3 specific development library and header for %{name}.
-
 
 %package -n %{develname}
 Summary:	Headers and libraries for %{name} development
@@ -161,7 +151,6 @@ Development files for %{name}.
 %make
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 # Remove metalink libraries
@@ -172,9 +161,7 @@ install -D -m644  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/40canberra.sh
 install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canberra.conf
 install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
-
 %files -n %{shortname}-common
-%{_sysconfdir}/gconf/schemas/libcanberra.schemas
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 %{_sysconfdir}/profile.d/40canberra.sh
 %{_sysconfdir}/sound/profiles/alsa/canberra.conf
@@ -191,7 +178,6 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop
 %{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
 %{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
-
 
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
@@ -212,7 +198,6 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_libdir}/gtk-3.0/modules/%{name}-gtk3-module.so
 %{_libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop
 
-
 %files -n %{libgtkdevel}
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_libdir}/%{name}-gtk.so
@@ -231,3 +216,4 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/vala/vapi/libcanberra.vapi
+
