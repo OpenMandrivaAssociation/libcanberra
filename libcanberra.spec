@@ -38,7 +38,7 @@ BuildRequires: pkgconfig(tdb)
 BuildRequires: pkgconfig(vorbisfile)
 BuildRequires: pkgconfig(x11)
 %if %{with systemd}
-BuildRequires: pkgconfig(udev)
+BuildRequires: pkgconfig(udev) >= 186
 BuildRequires: systemd-units
 %endif
 
@@ -60,6 +60,7 @@ Common files needed for libcanberra
 if [ $1 -eq 1 ]; then
     /bin/systemctl daemon-reload
 fi
+systemctl enable canberra-system-bootup.service
 
 %preun -n %{shortname}-common
 if [ $1 -eq 0 ]; then
@@ -145,7 +146,7 @@ Development files for %{name}.
     --disable-oss \
     --disable-lynx \
 %if %{with systemd}
-    --with-systemdsystemunitdir=/lib/systemd/system
+    --with-systemdsystemunitdir=%{_unitdir}
 %endif
 
 %make
@@ -216,4 +217,3 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/vala/vapi/libcanberra.vapi
-
