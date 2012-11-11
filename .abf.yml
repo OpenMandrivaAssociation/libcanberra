@@ -1,0 +1,6 @@
+sources:
+  "canberra-alsa.conf:"	66d0066561fb97bd1e061501d3a4fca5049cefef
+  "canberra-profile-d.sh:"	f915c064e7d6ae00b6651813e8df8a62af88e510
+  "canberra-pulse.conf:"	34a4fff718a1c821aa370f1ede92d182a6f7b604
+  "libcanberra-0.29.tar.xz:"	74052db5d1369a52c00aa11cd2310111380345c1
+  "libcanberra-gtk-module.sh:"	95983e64ca01439c8d12aff442f638e4d79315e1
