@@ -16,7 +16,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.29
-Release:	4
+Release:	5
 License:	LGPLv2+
 Group:		Sound
 URL:		http://0pointer.de/lennart/projects/libcanberra/
@@ -26,20 +26,21 @@ Source2:	%{shortname}-profile-d.sh
 Source3:	%{shortname}-alsa.conf
 Source4:	%{shortname}-pulse.conf
 Patch0:		libcanberra-0.28-underlinking.patch
+Patch1:		libcanberra-0.29-use-mdv-sounds.patch
 
-BuildRequires: GConf2
-BuildRequires: libtool-devel
-BuildRequires: pkgconfig(alsa)
-BuildRequires: pkgconfig(gstreamer-0.10)
-BuildRequires: pkgconfig(gtk+-2.0)
-BuildRequires: pkgconfig(gtk+-3.0)
-BuildRequires: pkgconfig(libpulse)
-BuildRequires: pkgconfig(tdb)
-BuildRequires: pkgconfig(vorbisfile)
-BuildRequires: pkgconfig(x11)
+BuildRequires:	GConf2
+BuildRequires:	libtool-devel
+BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(gstreamer-0.10)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(gtk+-3.0)
+BuildRequires:	pkgconfig(libpulse)
+BuildRequires:	pkgconfig(tdb)
+BuildRequires:	pkgconfig(vorbisfile)
+BuildRequires:	pkgconfig(x11)
 %if %{with systemd}
-BuildRequires: pkgconfig(udev) >= 186
-BuildRequires: systemd-units
+BuildRequires:	pkgconfig(udev) >= 186
+BuildRequires:	systemd-units
 %endif
 
 %description
