@@ -6,7 +6,7 @@ diff -Naur libcanberra-0.29/src/canberra-system-bootup.service.in libcanberra-0.
  # A little optimization under the assumption that we are using the
  # standard freedesktop theme
 -ConditionPathExists=/usr/share/sounds/freedesktop/stereo/system-bootup.oga
-+ConditionPathExists=/usr/share/sounds/system-bootup.wav
++ConditionPathExists=/usr/share/sounds/moondrake/stereo/system-bootup.oga
  
  [Service]
  Type=oneshot
@@ -19,8 +19,8 @@ diff -Naur libcanberra-0.29/src/canberra-system-shutdown-reboot.service.in libca
  # standard freedesktop theme
 -ConditionPathExists=|/usr/share/sounds/freedesktop/stereo/system-shutdown.oga
 -ConditionPathExists=|/usr/share/sounds/freedesktop/stereo/system-shutdown-reboot.oga
-+ConditionPathExists=|/usr/share/sounds/system-shutdown.wav
-+ConditionPathExists=|/usr/share/sounds/system-shutdown-reboot.wav
++ConditionPathExists=|/usr/share/sounds/moondrake/stereo/system-shutdown.oga
++ConditionPathExists=|/usr/share/sounds/moondrake/stereo/system-shutdown-reboot.oga
  
  [Service]
  Type=oneshot
@@ -32,7 +32,7 @@ diff -Naur libcanberra-0.29/src/canberra-system-shutdown.service.in libcanberra-
  # A little optimization under the assumption that we are using the
  # standard freedesktop theme
 -ConditionPathExists=/usr/share/sounds/freedesktop/stereo/system-shutdown.oga
-+ConditionPathExists=/usr/share/sounds/system-shutdown.wav
++ConditionPathExists=/usr/share/sounds/moondrake/stereo/system-shutdown.oga
  
  [Service]
  Type=oneshot
