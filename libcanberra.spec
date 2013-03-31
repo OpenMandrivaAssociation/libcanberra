@@ -129,7 +129,7 @@ Development files for %{name}.
 %build
 %configure2_5x \
     --disable-static \
-    --disable-oss \
+    --enable-oss \
     --disable-lynx \
 %if %{with systemd}
     --with-systemdsystemunitdir=%{_unitdir}
