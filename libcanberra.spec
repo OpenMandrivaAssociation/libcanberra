@@ -186,6 +186,7 @@ fi
 %{_libdir}/%{name}-%{version}/%{name}-pulse.so
 %{_libdir}/%{name}-%{version}/%{name}-multi.so
 %{_libdir}/%{name}-%{version}/%{name}-null.so
+%{_libdir}/%{name}-%{version}/%{name}-oss.so
 
 %files -n %{libgtk}
 %{_libdir}/%{name}-gtk.so.%{majgtk}*
