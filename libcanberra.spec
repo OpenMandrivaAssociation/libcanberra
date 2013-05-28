@@ -19,7 +19,7 @@ Version:	0.30
 Release:	1
 License:	LGPLv2+
 Group:		Sound
-URL:		http://0pointer.de/lennart/projects/libcanberra/
+Url:		http://0pointer.de/lennart/projects/libcanberra/
 Source0:	http://0pointer.de/lennart/projects/libcanberra/%{name}-%{version}.tar.xz
 Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
@@ -127,11 +127,11 @@ Development files for %{name}.
 
 %build
 %configure2_5x \
-    --disable-static \
-    --enable-oss \
-    --disable-lynx \
+	--disable-static \
+	--enable-oss \
+	--disable-lynx \
 %if %{with systemd}
-    --with-systemdsystemunitdir=%{_unitdir}
+	--with-systemdsystemunitdir=%{_unitdir}
 %endif
 
 %make
@@ -216,3 +216,4 @@ fi
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/vala/vapi/libcanberra.vapi
+
