@@ -16,7 +16,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -25,6 +25,7 @@ Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
+Patch0:		libcanberra-0.30-moondrake-sound-theme-by-default-if-present.patch
 
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
