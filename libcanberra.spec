@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -142,20 +142,20 @@ install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canb
 install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
 %post -n %{short}-common
-%_post_service canberra-system-bootup.service
-%_post_service canberra-system-shutdown.service
-%_post_service canberra-system-shutdown-reboot.service
+%_post_service canberra-system-bootup
+%_post_service canberra-system-shutdown
+%_post_service canberra-system-shutdown-reboot
 
 %preun -n %{short}-common
-%_preun_service canberra-system-bootup.service
-%_preun_service canberra-system-shutdown.service
-%_preun_service canberra-system-shutdown-reboot.service
+%_preun_service canberra-system-bootup
+%_preun_service canberra-system-shutdown
+%_preun_service canberra-system-shutdown-reboot
 
 
 %postun -n %{short}-common
-%_postun_service canberra-system-bootup.service
-%_postun_service canberra-system-shutdown.service
-%_postun_service canberra-system-shutdown-reboot.service
+%_postun_service canberra-system-bootup
+%_postun_service canberra-system-shutdown
+%_postun_service canberra-system-shutdown-reboot
 
 %files -n %{short}-common
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh

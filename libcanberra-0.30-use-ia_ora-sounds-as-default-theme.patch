@@ -1,7 +1,7 @@
 diff -Naur libcanberra-0.30/src/canberra-system-bootup.service.in libcanberra-0.30.tpg/src/canberra-system-bootup.service.in
 --- libcanberra-0.30/src/canberra-system-bootup.service.in	2011-02-23 01:51:00.000000000 +0000
-+++ libcanberra-0.30.tpg/src/canberra-system-bootup.service.in	2013-08-20 09:08:35.994598127 +0000
-@@ -7,7 +7,7 @@
++++ libcanberra-0.30.tpg/src/canberra-system-bootup.service.in	2013-08-20 10:09:57.600804064 +0000
+@@ -7,11 +7,11 @@
  
  # A little optimization under the assumption that we are using the
  # standard freedesktop theme
@@ -10,6 +10,11 @@ diff -Naur libcanberra-0.30/src/canberra-system-bootup.service.in libcanberra-0.
  
  [Service]
  Type=oneshot
+-ExecStart=-@bindir@/canberra-boot system-bootup
++ExecStart=-@bindir@/canberra-boot ia_ora-startup
+ 
+ [Install]
+ WantedBy=sound.target
 diff -Naur libcanberra-0.30/src/canberra-system-shutdown-reboot.service.in libcanberra-0.30.tpg/src/canberra-system-shutdown-reboot.service.in
 --- libcanberra-0.30/src/canberra-system-shutdown-reboot.service.in	2012-05-15 10:17:34.000000000 +0000
 +++ libcanberra-0.30.tpg/src/canberra-system-shutdown-reboot.service.in	2013-08-20 09:20:03.326898429 +0000
