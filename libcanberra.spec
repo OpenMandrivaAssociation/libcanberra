@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -23,6 +23,7 @@ Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
+Patch0:		libcanberra-0.30-use-ia_ora-sounds-as-default-theme.patch
 
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
@@ -47,6 +48,7 @@ Summary:	Common files needed for libcanberra
 Group:		Sound
 # (cg) This is just temporary. This should really be a generic requires.
 Requires:	sound-theme-freedesktop
+Requires:	desktop-common-data
 Conflicts:	%{short}-gtk3 < 0.28-6
 Requires(post,postun,preun): rpm-helper
 
