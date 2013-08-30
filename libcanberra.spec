@@ -1,22 +1,20 @@
 %define _disable_ld_no_undefined 1
 
-%define	short	canberra
-%define	major	0
-%define	majgtk	0
+%define short canberra
+%define major 0
+%define majgtk 0
 
-%define	libname	%mklibname %{short} %{major}
-%define	libgtk	%mklibname %{short}-gtk %{majgtk}
-%define	libgtk3	%mklibname %{short}-gtk3_ %{majgtk}
-%define	gtkdev	%mklibname -d %{short}-gtk
-%define	gtk3dev	%mklibname -d %{short}-gtk3
-%define	devname	%mklibname -d %{short}
-
-%bcond_without	systemd
+%define libname	%mklibname %{short} %{major}
+%define libgtk	%mklibname %{short}-gtk %{majgtk}
+%define libgtk3	%mklibname %{short}-gtk3_ %{majgtk}
+%define gtkdev	%mklibname -d %{short}-gtk
+%define gtk3dev	%mklibname -d %{short}-gtk3
+%define devname	%mklibname -d %{short}
 
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -25,7 +23,7 @@ Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
-Patch0:		libcanberra-0.30-moondrake-sound-theme-by-default-if-present.patch
+Patch0:		libcanberra-0.30-use-ia_ora-sounds-as-default-theme.patch
 
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
@@ -37,10 +35,9 @@ BuildRequires:	pkgconfig(libpulse)
 BuildRequires:	pkgconfig(tdb)
 BuildRequires:	pkgconfig(vorbisfile)
 BuildRequires:	pkgconfig(x11)
-%if %{with systemd}
 BuildRequires:	pkgconfig(udev) >= 186
-BuildRequires:	systemd-units
-%endif
+BuildRequires:	pkgconfig(systemd)
+
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -51,10 +48,12 @@ Summary:	Common files needed for libcanberra
 Group:		Sound
 # (cg) This is just temporary. This should really be a generic requires.
 Requires:	sound-theme-freedesktop
+Requires:	desktop-common-data
 Conflicts:	%{short}-gtk3 < 0.28-6
+Requires(post,postun,preun): rpm-helper
 
 %description -n	%{short}-common
-Common files needed for libcanberra
+Common files needed for libcanberra.
 
 %package -n	%{short}-gtk3
 Summary:	GTK3 utilities for the %{name} XDG complient sound event library
@@ -83,7 +82,7 @@ Provides:	canberra-gtk-module
 %rename		canberra-gtk
 
 %description -n	%{libgtk}
-GTK specific libraries for %{name}
+GTK specific libraries for %{name}.
 
 %package -n	%{libgtk3}
 Summary:	GTK3 libraries for the %{name}
@@ -130,9 +129,7 @@ Development files for %{name}.
 	--disable-static \
 	--enable-oss \
 	--disable-lynx \
-%if %{with systemd}
 	--with-systemdsystemunitdir=%{_unitdir}
-%endif
 
 %make
 
@@ -144,33 +141,31 @@ install -D -m644  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/40canberra.sh
 install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canberra.conf
 install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
-
 %post -n %{short}-common
-if [ $1 -eq 1 ]; then
-    /bin/systemctl daemon-reload
-fi
-systemctl enable canberra-system-bootup.service
+%_post_service canberra-system-bootup
+%_post_service canberra-system-shutdown
+%_post_service canberra-system-shutdown-reboot
 
 %preun -n %{short}-common
-if [ $1 -eq 0 ]; then
-    /bin/systemctl --no-reload disable canberra-system-bootup.service canberra-system-shutdown.service canberra-system-shutdown-reboot.service
-    /bin/systemctl stop canberra-system-bootup.service canberra-system-shutdown.service canberra-system-shutdown-reboot.service
-fi
+%_preun_service canberra-system-bootup
+%_preun_service canberra-system-shutdown
+%_preun_service canberra-system-shutdown-reboot
+
 
 %postun -n %{short}-common
-/bin/systemctl daemon-reload
+%_postun_service canberra-system-bootup
+%_postun_service canberra-system-shutdown
+%_postun_service canberra-system-shutdown-reboot
 
 %files -n %{short}-common
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 %{_sysconfdir}/profile.d/40canberra.sh
 %{_sysconfdir}/sound/profiles/alsa/canberra.conf
 %{_sysconfdir}/sound/profiles/pulse/canberra.conf
-%if %{with systemd}
 %{_bindir}/canberra-boot
 /lib/systemd/system/canberra-system-bootup.service
 /lib/systemd/system/canberra-system-shutdown-reboot.service
 /lib/systemd/system/canberra-system-shutdown.service
-%endif
 
 %files -n %{short}-gtk3
 %{_bindir}/canberra-gtk-play
