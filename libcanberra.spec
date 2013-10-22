@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	4
+Release:	5
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -59,7 +59,7 @@ Common files needed for libcanberra.
 Summary:	GTK3 utilities for the %{name} XDG complient sound event library
 Group:		System/Libraries
 Requires:	gtk+3.0
-Requires:	%{short}-common
+Suggests:	%{short}-common
 Obsoletes:	%{name}-gtk2
 
 %description -n	%{short}-gtk3
