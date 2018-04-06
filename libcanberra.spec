@@ -23,9 +23,6 @@ Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
-# please leave as is, it'll only use moondrake sound theme if present, otherwise it'll fallback to ia_ora
-Patch0:		libcanberra-0.30-moondrake-sound-theme-by-default-if-present-otherwise-fallback-to-ia_ora.patch
-
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
 BuildRequires:	pkgconfig(alsa)
