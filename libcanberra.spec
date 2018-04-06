@@ -120,7 +120,6 @@ Development files for %{name}.
 
 %prep
 %setup -q
-%autopatch -p1
 
 %build
 %configure \
@@ -129,10 +128,10 @@ Development files for %{name}.
 	--disable-lynx \
 	--with-systemdsystemunitdir=%{_unitdir}
 
-%make_build
+%make
 
 %install
-%make_install
+%makeinstall_std
 
 install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 install -D -m644  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/40canberra.sh
