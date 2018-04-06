@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	16
+Release:	17
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -23,9 +23,6 @@ Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
-# please leave as is, it'll only use moondrake sound theme if present, otherwise it'll fallback to ia_ora
-Patch0:		libcanberra-0.30-moondrake-sound-theme-by-default-if-present-otherwise-fallback-to-ia_ora.patch
-
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
 BuildRequires:	pkgconfig(alsa)
@@ -123,40 +120,31 @@ Development files for %{name}.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
-%configure2_5x \
+%configure \
 	--disable-static \
-	--enable-oss \
+	--disable-oss \
 	--disable-lynx \
 	--with-systemdsystemunitdir=%{_unitdir}
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 install -D -m755  %{SOURCE1} %{buildroot}%{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
 install -D -m644  %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d/40canberra.sh
 install -D -m644  %{SOURCE3} %{buildroot}%{_sysconfdir}/sound/profiles/alsa/canberra.conf
 install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/canberra.conf
 
-%post -n %{short}-common
-%_post_service canberra-system-bootup
-%_post_service canberra-system-shutdown
-%_post_service canberra-system-shutdown-reboot
-
-%preun -n %{short}-common
-%_preun_service canberra-system-bootup
-%_preun_service canberra-system-shutdown
-%_preun_service canberra-system-shutdown-reboot
-
-
-%postun -n %{short}-common
-%_postun_service canberra-system-bootup
-%_postun_service canberra-system-shutdown
-%_postun_service canberra-system-shutdown-reboot
+install -d %{buildroot}%{_presetdir}
+cat > %{buildroot}%{_presetdir}/86-%{name}.preset << EOF
+enable canberra-system-bootup.service
+enable canberra-system-shutdown.service
+enable canberra-system-shutdown-reboot.service
+EOF
 
 %files -n %{short}-common
 %{_sysconfdir}/X11/xinit.d/libcanberra-gtk-module.sh
@@ -164,9 +152,10 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_sysconfdir}/sound/profiles/alsa/canberra.conf
 %{_sysconfdir}/sound/profiles/pulse/canberra.conf
 %{_bindir}/canberra-boot
-/lib/systemd/system/canberra-system-bootup.service
-/lib/systemd/system/canberra-system-shutdown-reboot.service
-/lib/systemd/system/canberra-system-shutdown.service
+%{_presetdir}/86-%{name}.preset
+%{_systemunitdir}/canberra-system-bootup.service
+%{_systemunitdir}/canberra-system-shutdown-reboot.service
+%{_systemunitdir}/canberra-system-shutdown.service
 
 %files -n %{short}-gtk3
 %{_bindir}/canberra-gtk-play
@@ -182,7 +171,6 @@ install -D -m644  %{SOURCE4} %{buildroot}%{_sysconfdir}/sound/profiles/pulse/can
 %{_libdir}/%{name}-%{version}/%{name}-pulse.so
 %{_libdir}/%{name}-%{version}/%{name}-multi.so
 %{_libdir}/%{name}-%{version}/%{name}-null.so
-%{_libdir}/%{name}-%{version}/%{name}-oss.so
 
 %files -n %{libgtk}
 %{_libdir}/%{name}-gtk.so.%{majgtk}*
