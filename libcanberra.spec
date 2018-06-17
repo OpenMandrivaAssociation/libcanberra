@@ -25,6 +25,7 @@ Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
+BuildRequires:	systemd
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gstreamer-1.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
