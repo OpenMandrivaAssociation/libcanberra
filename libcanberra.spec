@@ -35,8 +35,8 @@ BuildRequires:	pkgconfig(tdb)
 BuildRequires:	pkgconfig(vorbisfile)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(udev) >= 186
-BuildRequires:	pkgconfig(systemd)
-
+BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	systemd-macros
 
 %description
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -128,7 +128,7 @@ Development files for %{name}.
 	--disable-static \
 	--disable-oss \
 	--disable-lynx \
-	--with-systemdsystemunitdir=%{_systemunitdir}
+	--with-systemdsystemunitdir=%{_unitdir}
 
 %make_build
 
@@ -154,9 +154,9 @@ EOF
 %{_sysconfdir}/sound/profiles/pulse/canberra.conf
 %{_bindir}/canberra-boot
 %{_presetdir}/86-%{name}.preset
-%{_systemunitdir}/canberra-system-bootup.service
-%{_systemunitdir}/canberra-system-shutdown-reboot.service
-%{_systemunitdir}/canberra-system-shutdown.service
+%{_unitdir}/canberra-system-bootup.service
+%{_unitdir}/canberra-system-shutdown-reboot.service
+%{_unitdir}/canberra-system-shutdown.service
 
 %files -n %{short}-gtk3
 %{_bindir}/canberra-gtk-play
@@ -201,4 +201,3 @@ EOF
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/vala/vapi/libcanberra.vapi
-
