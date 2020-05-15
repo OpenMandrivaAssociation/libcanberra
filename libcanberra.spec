@@ -23,6 +23,7 @@ Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
+Patch0:		0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
 BuildRequires:	GConf2
 BuildRequires:	libtool-devel
 BuildRequires:	systemd-macros
@@ -42,7 +43,7 @@ BuildRequires:	systemd-macros
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
-%package -n	%{short}-common
+%package -n %{short}-common
 Summary:	Common files needed for libcanberra
 Group:		Sound
 # (cg) This is just temporary. This should really be a generic requires.
@@ -51,46 +52,46 @@ Requires:	desktop-common-data
 Conflicts:	%{short}-gtk3 < 0.28-6
 Requires(post,postun,preun): rpm-helper
 
-%description -n	%{short}-common
+%description -n %{short}-common
 Common files needed for libcanberra.
 
-%package -n	%{short}-gtk3
+%package -n %{short}-gtk3
 Summary:	GTK3 utilities for the %{name} XDG complient sound event library
 Group:		System/Libraries
 Requires:	gtk+3.0
 Suggests:	%{short}-common
 Obsoletes:	%{name}-gtk2
 
-%description -n	%{short}-gtk3
+%description -n %{short}-gtk3
 GTK3 specific utilities & modules for %{name}, a small and lightweight 
 implementation of the XDG Sound Theme Specification 
 (http://0pointer.de/public/sound-theme-spec.html).
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	XDG complient sound event library
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 A small and lightweight implementation of the XDG Sound Theme Specification
 (http://0pointer.de/public/sound-theme-spec.html).
 
-%package -n	%{libgtk}
+%package -n %{libgtk}
 Summary:	GTK libraries for the %{name}
 Group:		System/Libraries
 Provides:	canberra-gtk-module
 %rename		canberra-gtk
 
-%description -n	%{libgtk}
+%description -n %{libgtk}
 GTK specific libraries for %{name}.
 
-%package -n	%{libgtk3}
+%package -n %{libgtk3}
 Summary:	GTK3 libraries for the %{name}
 Group:		System/Libraries
 
 %description -n %{libgtk3}
 GTK3 specific libraries for %{name}.
 
-%package -n	%{gtkdev}
+%package -n %{gtkdev}
 Summary:	GTK library for %{name} development
 Group:		Development/C
 Provides:	%{name}-gtk-devel = %{version}-%{release}
@@ -98,19 +99,19 @@ Requires:	%{libgtk} = %{version}-%{release}
 # moved the gtk header file & vala to gtk3devel
 Requires:	%{gtk3dev} = %{version}-%{release}
 
-%description -n	%{gtkdev}
+%description -n %{gtkdev}
 GTK specific development library for %{name}.
 
-%package -n	%{gtk3dev}
+%package -n %{gtk3dev}
 Summary:	GTK3 header and library for %{name} development
 Group:		Development/C
 Provides:	%{name}-gtk3-devel = %{version}-%{release}
 Requires:	%{libgtk3} = %{version}-%{release}
 
-%description -n	%{gtk3dev}
+%description -n %{gtk3dev}
 GTK3 specific development library and header for %{name}.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Headers and libraries for %{name} development
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
@@ -127,6 +128,7 @@ Development files for %{name}.
 	--disable-static \
 	--disable-oss \
 	--disable-lynx \
+	--with-builtin=dso \
 	--with-systemdsystemunitdir=%{_unitdir}
 
 %make_build
