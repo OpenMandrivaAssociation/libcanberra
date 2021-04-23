@@ -4,17 +4,17 @@
 %define major 0
 %define majgtk 0
 
-%define libname	%mklibname %{short} %{major}
-%define libgtk	%mklibname %{short}-gtk %{majgtk}
-%define libgtk3	%mklibname %{short}-gtk3_ %{majgtk}
-%define gtkdev	%mklibname -d %{short}-gtk
-%define gtk3dev	%mklibname -d %{short}-gtk3
-%define devname	%mklibname -d %{short}
+%define libname %mklibname %{short} %{major}
+%define libgtk %mklibname %{short}-gtk %{majgtk}
+%define libgtk3 %mklibname %{short}-gtk3_ %{majgtk}
+%define gtkdev %mklibname -d %{short}-gtk
+%define gtk3dev %mklibname -d %{short}-gtk3
+%define devname %mklibname -d %{short}
 
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	23
+Release:	24
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -50,7 +50,6 @@ Group:		Sound
 Requires:	sound-theme-freedesktop
 Requires:	desktop-common-data
 Conflicts:	%{short}-gtk3 < 0.28-6
-Requires(post,postun,preun): rpm-helper
 
 %description -n %{short}-common
 Common files needed for libcanberra.
