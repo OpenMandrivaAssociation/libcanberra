@@ -4,9 +4,9 @@
 %define major 0
 %define majgtk 0
 
-%define libname %mklibname %{short} %{major}
-%define libgtk %mklibname %{short}-gtk %{majgtk}
-%define libgtk3 %mklibname %{short}-gtk3_ %{majgtk}
+%define libname %mklibname %{short}
+%define libgtk %mklibname %{short}-gtk
+%define libgtk3 %mklibname %{short}-gtk3
 %define gtkdev %mklibname -d %{short}-gtk
 %define gtk3dev %mklibname -d %{short}-gtk3
 %define devname %mklibname -d %{short}
@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	28
+Release:	29
 License:	LGPLv2+
 Group:		Sound
 Url:		http://0pointer.de/lennart/projects/libcanberra/
@@ -24,7 +24,6 @@ Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
 Patch0:		0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
-BuildRequires:	GConf2
 BuildRequires:	libtool-devel
 BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(alsa)
@@ -69,6 +68,7 @@ implementation of the XDG Sound Theme Specification
 %package -n %{libname}
 Summary:	XDG complient sound event library
 Group:		System/Libraries
+%rename %{mklibname %{short} %{major}}
 
 %description -n %{libname}
 A small and lightweight implementation of the XDG Sound Theme Specification
@@ -79,6 +79,7 @@ Summary:	GTK libraries for the %{name}
 Group:		System/Libraries
 Provides:	canberra-gtk-module
 %rename		canberra-gtk
+%rename %{mklibname %{short}-gtk %{majgtk}}
 
 %description -n %{libgtk}
 GTK specific libraries for %{name}.
@@ -86,6 +87,7 @@ GTK specific libraries for %{name}.
 %package -n %{libgtk3}
 Summary:	GTK3 libraries for the %{name}
 Group:		System/Libraries
+%rename %{mklibname %{short}-gtk3_ %{majgtk}}
 
 %description -n %{libgtk3}
 GTK3 specific libraries for %{name}.
