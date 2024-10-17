@@ -17,7 +17,7 @@ Version:	0.30
 Release:	35
 License:	LGPLv2+
 Group:		Sound
-Url:		http://0pointer.de/lennart/projects/libcanberra/
+Url:		https://0pointer.de/lennart/projects/libcanberra/
 Source0:	http://0pointer.de/lennart/projects/libcanberra/%{name}-%{version}.tar.xz
 Source1:	%{name}-gtk-module.sh
 Source2:	%{short}-profile-d.sh
