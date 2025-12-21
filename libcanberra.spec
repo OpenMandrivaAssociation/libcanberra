@@ -24,6 +24,11 @@ Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
 Patch0:		0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	libtool-devel
 BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(alsa)
