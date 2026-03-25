@@ -26,8 +26,8 @@ Source4:	%{short}-pulse.conf
 Patch0:		0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
-BuildRequires:	slibtool
+BuildRequires:	libtool-base libtool
+#BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	libtool-devel
 BuildRequires:	systemd-macros
@@ -130,6 +130,12 @@ Development files for %{name}.
 %autosetup -p1
 
 %build
+# ej fak ju
+# use libtool instead of slib
+ln -sf %{_bindir}/libtoolize slibtoolize
+export PATH=$PWD:$PATH
+export LIBTOOLIZE=%{_bindir}/libtoolize
+export LIBTOOL=%{_bindir}/libtool
 %configure \
 	--disable-static \
 	--disable-oss \
