@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	38
+Release:	39
 License:	LGPLv2+
 Group:		Sound
 Url:		https://0pointer.de/lennart/projects/libcanberra/
@@ -24,12 +24,11 @@ Source2:	%{short}-profile-d.sh
 Source3:	%{short}-alsa.conf
 Source4:	%{short}-pulse.conf
 Patch0:		0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
+Patch1:		libcanberra-0.30-sltdl.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base libtool
-#BuildRequires:	slibtool
+BuildRequires:	slibtool
 BuildRequires:	make
-BuildRequires:	libtool-devel
 BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gstreamer-1.0)
@@ -41,6 +40,7 @@ BuildRequires:	pkgconfig(vorbisfile)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(udev) >= 186
 BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	pkgconfig(sltdl)
 BuildRequires:	systemd-macros
 
 %description
@@ -130,12 +130,7 @@ Development files for %{name}.
 %autosetup -p1
 
 %build
-# ej fak ju
-# use libtool instead of slib
-ln -sf %{_bindir}/libtoolize slibtoolize
 export PATH=$PWD:$PATH
-export LIBTOOLIZE=%{_bindir}/libtoolize
-export LIBTOOL=%{_bindir}/libtool
 %configure \
 	--disable-static \
 	--disable-oss \

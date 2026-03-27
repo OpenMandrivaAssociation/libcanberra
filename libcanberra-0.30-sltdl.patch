@@ -1,0 +1,109 @@
+diff -up libcanberra-0.30/configure.ac.omv~ libcanberra-0.30/configure.ac
+--- libcanberra-0.30/configure.ac.omv~	2026-03-27 16:48:58.366544791 +0100
++++ libcanberra-0.30/configure.ac	2026-03-27 16:48:58.363925936 +0100
+@@ -140,8 +140,9 @@ dnl We don't need any special variable f
+ dnl can give the proper place to find libltdl through the standard
+ dnl variables like LDFLAGS and CPPFLAGS.
+ 
+-AC_CHECK_HEADER([ltdl.h],
+-    [AC_CHECK_LIB([ltdl], [lt_dladvise_init], [LIBLTDL=-lltdl], [LIBLTDL=])],
++CPPFLAGS="$CPPFLAGS -I/usr/include/sltdl"
++AC_CHECK_HEADER([sltdl.h],
++    [AC_CHECK_LIB([sltdl], [lt_dlinit], [LIBLTDL=-lsltdl], [LIBLTDL=])],
+     [LIBLTDL=])
+ 
+ AS_IF([test "x$LIBLTDL" = "x"],
+diff -up libcanberra-0.30/src/dso.c.omv~ libcanberra-0.30/src/dso.c
+--- libcanberra-0.30/src/dso.c.omv~	2026-03-27 16:51:11.825303501 +0100
++++ libcanberra-0.30/src/dso.c	2026-03-27 17:01:13.141277449 +0100
+@@ -24,7 +24,7 @@
+ #include <config.h>
+ #endif
+ 
+-#include <ltdl.h>
++#include <sltdl.h>
+ #include <string.h>
+ #include <errno.h>
+ 
+@@ -52,25 +52,63 @@ struct private_dso {
+ static int ca_error_from_lt_error(int code) {
+ 
+         static const int table[] = {
++#ifdef LT_ERROR_UNKNOWN
+                 [LT_ERROR_UNKNOWN] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_DLOPEN_NOT_SUPPORTED
+                 [LT_ERROR_DLOPEN_NOT_SUPPORTED] = CA_ERROR_NOTSUPPORTED,
++#endif
++#ifdef LT_ERROR_INVALID_LOADER
+                 [LT_ERROR_INVALID_LOADER] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_INIT_LOADER
+                 [LT_ERROR_INIT_LOADER] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_REMOVE_LOADER
+                 [LT_ERROR_REMOVE_LOADER] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_FILE_NOT_FOUND
+                 [LT_ERROR_FILE_NOT_FOUND] = CA_ERROR_NOTFOUND,
++#endif
++#ifdef LT_ERROR_DEPLIB_NOT_FOUND
+                 [LT_ERROR_DEPLIB_NOT_FOUND] = CA_ERROR_NOTFOUND,
++#endif
++#ifdef LT_ERROR_NO_SYMBOLS
+                 [LT_ERROR_NO_SYMBOLS] = CA_ERROR_NOTFOUND,
++#endif
++#ifdef LT_ERROR_CANNOT_OPEN
+                 [LT_ERROR_CANNOT_OPEN] = CA_ERROR_ACCESS,
++#endif
++#ifdef LT_ERROR_CANNOT_CLOSE
+                 [LT_ERROR_CANNOT_CLOSE] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_SYMBOL_NOT_FOUND
+                 [LT_ERROR_SYMBOL_NOT_FOUND] = CA_ERROR_NOTFOUND,
++#endif
++#ifdef LT_ERROR_NO_MEMORY
+                 [LT_ERROR_NO_MEMORY] = CA_ERROR_OOM,
++#endif
++#ifdef LT_ERROR_INVALID_HANDLE
+                 [LT_ERROR_INVALID_HANDLE] = CA_ERROR_INVALID,
++#endif
++#ifdef LT_ERROR_BUFFER_OVERFLOW
+                 [LT_ERROR_BUFFER_OVERFLOW] = CA_ERROR_TOOBIG,
++#endif
++#ifdef LT_ERROR_INVALID_ERRORCODE
+                 [LT_ERROR_INVALID_ERRORCODE] = CA_ERROR_INVALID,
++#endif
++#ifdef LT_ERROR_SHUTDOWN
+                 [LT_ERROR_SHUTDOWN] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_CLOSE_RESIDENT_MODULE
+                 [LT_ERROR_CLOSE_RESIDENT_MODULE] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_INVALID_MUTEX_ARGS
+                 [LT_ERROR_INVALID_MUTEX_ARGS] = CA_ERROR_INTERNAL,
++#endif
++#ifdef LT_ERROR_INVALID_POSITION
+                 [LT_ERROR_INVALID_POSITION] = CA_ERROR_INTERNAL
++#endif
+ #ifdef LT_ERROR_CONFLICTING_FLAGS
+                 , [LT_ERROR_CONFLICTING_FLAGS] = CA_ERROR_INTERNAL
+ #endif
+@@ -83,7 +121,7 @@ static int ca_error_from_lt_error(int co
+ }
+ 
+ static int lt_error_from_string(const char *t) {
+-
++#if 0 /* No lt_dlerror_table ugliness in slibtool */
+         struct lt_error_code {
+                 int code;
+                 const char *text;
+@@ -104,7 +142,7 @@ static int lt_error_from_string(const ch
+         for (c = lt_error_codes; c->text; c++)
+                 if (ca_streq(t, c->text))
+                         return c->code;
+-
++#endif
+         return -1;
+ }
+ 
