@@ -107,3 +107,12 @@ diff -up libcanberra-0.30/src/dso.c.omv~ libcanberra-0.30/src/dso.c
          return -1;
  }
  
+@@ -161,7 +161,7 @@ static int try_open(ca_context *c, const
+ 
+         p = PRIVATE_DSO(c);
+ 
+-        if (!(mn = ca_sprintf_malloc(CA_PLUGIN_PATH "/libcanberra-%s", t)))
++        if (!(mn = ca_sprintf_malloc(CA_PLUGIN_PATH "/libcanberra-%s.so", t)))
+                 return CA_ERROR_OOM;
+ 
+         errno = 0;
