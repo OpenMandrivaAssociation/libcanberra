@@ -14,7 +14,7 @@
 Summary:	XDG compliant sound event library
 Name:		libcanberra
 Version:	0.30
-Release:	39
+Release:	40
 License:	LGPLv2+
 Group:		Sound
 Url:		https://0pointer.de/lennart/projects/libcanberra/
@@ -69,6 +69,14 @@ Obsoletes:	%{name}-gtk2
 GTK3 specific utilities & modules for %{name}, a small and lightweight 
 implementation of the XDG Sound Theme Specification 
 (http://0pointer.de/public/sound-theme-spec.html).
+
+%package -n %{short}-backend-gstreamer
+Summary:	Backend for playing canberra sounds with gstreamer
+Group:		System/Libraries
+Requires:	%{libname} = %{EVRD}
+
+%description -n %{short}-backend-gstreamer
+Backend for playing canberra sounds with gstreamer
 
 %package -n %{libname}
 Summary:	XDG complient sound event library
@@ -172,11 +180,13 @@ EOF
 %{_datadir}/gnome/autostart/libcanberra-login-sound.desktop
 %{_datadir}/gnome/shutdown/libcanberra-logout-sound.sh
 
+%files -n %{short}-backend-gstreamer
+%{_libdir}/%{name}-%{version}/%{name}-gstreamer.so
+
 %files -n %{libname}
 %{_libdir}/%{name}.so.%{major}*
 %dir %{_libdir}/%{name}-%{version}
 %{_libdir}/%{name}-%{version}/%{name}-alsa.so
-%{_libdir}/%{name}-%{version}/%{name}-gstreamer.so
 %{_libdir}/%{name}-%{version}/%{name}-pulse.so
 %{_libdir}/%{name}-%{version}/%{name}-multi.so
 %{_libdir}/%{name}-%{version}/%{name}-null.so
